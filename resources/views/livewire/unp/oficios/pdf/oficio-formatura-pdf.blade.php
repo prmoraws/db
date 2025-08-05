@@ -355,7 +355,7 @@
         </div>
     </main>
 
-    <footer>
+    <footer> 
         <p class="footer-banner">UNIVERSAL NOS <span>PRESÍDIOS</span></p>
         <p>Avenida Antônio Carlos Magalhães, 4197 Pituba, Salvador - BA 40280-000</p>
     </footer>

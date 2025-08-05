@@ -74,6 +74,8 @@
                                     ['route' => 'categorias', 'label' => 'Categorias'],
                                     ['route' => 'igrejas', 'label' => 'Igrejas'],
                                     ['route' => 'pastores', 'label' => 'Pastores'],
+                                    ['route' => 'pastor-unp', 'label' => 'Pastor UNP'],
+                                    ['route' => 'carros-unp', 'label' => 'Carros UNP'],
                                     ['route' => 'pessoas', 'label' => 'Pessoas'],
                                     ['route' => 'regiaos', 'label' => 'Regiões'],
                                 ],

@@ -167,7 +167,7 @@
 
                 {{-- Modal de Visualização --}}
                 @if ($isViewOpen && $selectedOficio)
-                    <div wire:key="view-modal"
+                    <div wire:key="view-modal" 
                         class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-md z-50 overflow-y-auto p-4 sm:p-10 flex flex-col items-center justify-start pt-10"
                         x-data="{ open: @json($isViewOpen) }" x-show="open" x-on:keydown.escape.window="$wire.closeViewModal()"
                         x-transition>
