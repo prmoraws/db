@@ -4,6 +4,7 @@ namespace App\Models\Universal;
 
 use App\Models\Unp\Instrutor;
 use App\Models\Universal\Pessoa;
+use App\Models\Politica\Cidade; 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,6 +16,11 @@ class Igreja extends Model
     public function bloco(): BelongsTo
     {
         return $this->belongsTo(Bloco::class);
+    }
+
+      public function cidade()
+    {
+        return $this->belongsTo(Cidade::class, 'cidade_id');
     }
 
     public function regiao(): BelongsTo
