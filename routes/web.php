@@ -21,16 +21,20 @@ use App\Livewire\Universal\{Banners, Blocos, Categorias, Pastores, PastorUnp, Ca
 use App\Http\Controllers\Universal\PastorUnpPrintController; 
 use App\Livewire\Unp\{Cargos, Cursos, Formaturas, Grupos, Instrutores, Presidios, Documentos};
 use App\Livewire\Unp\Oficios\{Anexos, Convidados, DadosCurso, InformacaoCurso, ListaCertificado, OficioCredencial, OficioEvento, OficioFormatura, OficioGeral, OficioTrabalho, OficioCop, OficioCurso, Reeducandos};
+use App\Livewire\Universal\CaptacaoUnp;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 use App\Livewire\Adm\Users as UserManagement;
 use App\Livewire\Adm\Teams as TeamManagement;
 use App\Livewire\Adm\Dashboard as AdmDashboard;
+use App\Livewire\Adm\Captacoes as CaptacaoManagement; 
 use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/captacao-unp', CaptacaoUnp::class)->name('captacao.unp');
 
 Route::middleware([
     'auth:sanctum',
@@ -100,6 +104,7 @@ Route::middleware([
         Route::get('/users', UserManagement::class)->name('adm.users');
         Route::get('/teams', TeamManagement::class)->name('adm.teams');
         Route::get('/dashboard', AdmDashboard::class)->name('adm.dashboard');
+        Route::get('/captacoes', CaptacaoManagement::class)->name('adm.captacoes');
     });
 
     // Rotas de iOS vizualização.

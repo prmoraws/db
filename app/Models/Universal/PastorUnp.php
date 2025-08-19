@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Storage; // 1. Adicione este import
 
 class PastorUnp extends Model
 {
@@ -49,6 +50,32 @@ class PastorUnp extends Model
         'trabalho' => 'array',
         'trabalho_esposa' => 'array',
     ];
+     /**
+     * O método "booted" é executado quando o model é inicializado.
+     */
+    protected static function booted(): void
+    {
+        // Define uma ação a ser executada ANTES de um registro ser deletado
+        static::deleting(function (PastorUnp $pastor) {
+            // Verifica se este pastor tem um carro associado
+            if ($pastor->carroUnp) {
+                $carro = $pastor->carroUnp;
+                
+                // Lista de todos os campos de foto do carro
+                $photoFields = ['foto_frente', 'foto_tras', 'foto_direita', 'foto_esquerda', 'foto_dentro', 'foto_cambio'];
+                
+                // Deleta cada foto do armazenamento
+                foreach ($photoFields as $field) {
+                    if ($carro->$field) {
+                        Storage::disk('public_disk')->delete($carro->$field);
+                    }
+                }
+                
+                // Deleta o registro do carro do banco de dados
+                $carro->delete();
+            }
+        });
+    }
 
     public function bloco(): BelongsTo
     {
@@ -67,3 +94,4 @@ class PastorUnp extends Model
         return $this->hasOne(CarroUnp::class, 'pastor_unp_id');
     }
 }
+
