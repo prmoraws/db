@@ -9,7 +9,7 @@ class VotacaoDetalhada extends Model
 {
     use HasFactory;
 
-    protected $table = 'politica_votacao_detalhadas'; // Laravel geralmente pluraliza com 's'
+    protected $table = 'politica_votacao_detalhada';
 
     protected $fillable = [
         'local_votacao_id',

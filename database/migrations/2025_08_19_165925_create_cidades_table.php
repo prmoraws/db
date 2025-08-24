@@ -18,9 +18,9 @@ return new class extends Migration
             $table->id();
             $table->string('nome');
             $table->integer('ibge_code')->unique()->nullable();
-            $table->integer('populacao')->nullable();
-            $table->integer('votos_validos_ultima_eleicao')->nullable();
-            $table->integer('cadeiras_camara')->nullable();
+            $table->unsignedBigInteger('populacao')->nullable(); // Corrigido
+            $table->unsignedBigInteger('votos_validos_ultima_eleicao')->nullable(); // Corrigido
+            $table->unsignedInteger('cadeiras_camara')->nullable(); // Corrigido
             $table->timestamps();
         });
     }

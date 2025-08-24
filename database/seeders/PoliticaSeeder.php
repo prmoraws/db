@@ -437,6 +437,11 @@ class PoliticaSeeder extends Seeder
             ['ibge_code' => 2933703, 'nome' => 'Xique-Xique'],
         ];
 
+        $cidades = array_map(function($cidade) {
+            $cidade['nome'] = mb_strtoupper($cidade['nome'], 'UTF-8');
+            return $cidade;
+        }, $cidadesRaw);
+
         Cidade::insert($cidades);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');

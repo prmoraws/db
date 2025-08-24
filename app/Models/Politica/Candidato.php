@@ -22,4 +22,9 @@ class Candidato extends Model
     {
         return $this->hasMany(Projecao::class, 'candidato_id');
     }
+
+    public function cidadesFavoritas()
+    {
+        return $this->belongsToMany(Cidade::class, 'cidade_candidato', 'candidato_id', 'cidade_id');
+    }
 }

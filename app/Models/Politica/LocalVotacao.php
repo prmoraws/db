@@ -11,11 +11,26 @@ class LocalVotacao extends Model
 
     protected $table = 'politica_locais_votacao';
 
-    protected $fillable = ['bairro_id', 'nome', 'endereco'];
+    /**
+     * A lista de atributos que podem ser atribuídos em massa.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'cidade_id', // <-- CORREÇÃO ADICIONADA AQUI
+        'bairro_id', 
+        'nome', 
+        'endereco'
+    ];
 
     public function bairro()
     {
         return $this->belongsTo(Bairro::class, 'bairro_id');
+    }
+
+    public function cidade()
+    {
+        return $this->belongsTo(Cidade::class, 'cidade_id');
     }
 
     public function votacoes()

@@ -15,6 +15,8 @@ class Cidade extends Model
     protected $fillable = [
         'nome',
         'ibge_code',
+        'latitude', // Adicionado
+        'longitude', // Adicionado
         'populacao',
         'votos_validos_ultima_eleicao',
         'cadeiras_camara',
@@ -38,5 +40,18 @@ class Cidade extends Model
     public function igrejas()
     {
         return $this->hasMany(Igreja::class, 'cidade_id');
+    }
+
+        /**
+     * Sempre converte o nome da cidade para maiúsculas antes de salvar.
+     */
+    public function setNameAttribute($value)
+    {
+        $this->attributes['nome'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    public function candidatosFavoritos()
+    {
+        return $this->belongsToMany(Candidato::class, 'cidade_candidato', 'cidade_id', 'candidato_id');
     }
 }

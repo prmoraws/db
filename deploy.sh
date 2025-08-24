@@ -11,9 +11,6 @@ php artisan optimize
 
 echo "📦 Executando build do frontend com npm..."
 npm run build
-
-echo "🎼 Executando script artisan serve --host=172.29.1.192..."
-php artisan serve --host=172.29.1.192 --port=8000
-# composer run dev
+composer run dev
 
 echo "✅ Processo concluído."

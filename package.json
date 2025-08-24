@@ -22,7 +22,10 @@
         "alpinejs": "^3.14.9",
         "chart.js": "^4.5.0",
         "chartjs-plugin-zoom": "^2.2.0",
+        "html2canvas": "^1.4.1",
+        "jspdf": "^3.0.1",
         "laravel-echo": "^2.1.5",
+        "leaflet": "^1.9.4",
         "puppeteer": "^24.11.0",
         "pusher-js": "^8.4.0"
     }

@@ -29,6 +29,11 @@ use App\Livewire\Adm\Teams as TeamManagement;
 use App\Livewire\Adm\Dashboard as AdmDashboard;
 use App\Livewire\Adm\Captacoes as CaptacaoManagement; 
 use Illuminate\Support\Facades\Storage;
+use App\Livewire\Politica\CityDashboard;
+use App\Livewire\Politica\CityView;
+use App\Livewire\Politica\CandidatesManager;
+use App\Livewire\Politica\EspelhoManager;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -118,5 +123,14 @@ Route::middleware([
     Route::get('/oficios-cop/{id}/pdf-view', [CopPdfController::class, 'showPdfView'])->name('cop.pdf.view');
     Route::get('/anexos/{id}/pdf-view', [AnexosPdfController::class, 'showPdfView'])->name('anexos.pdf.view');
     Route::get('/lista-certificados/{id}/pdf-view', [ListaPdfController::class, 'showPdfView'])->name('lista.pdf.view');
+
+   // Rotas do Grupo Política
+    Route::group(['prefix' => 'politica', 'middleware' => 'team.access:Politica'], function () {
+    Route::get('/dashboard', CityDashboard::class)->name('politica.dashboard');
+    Route::get('/cidade/{cidade}', CityView::class)->name('politica.cidade.view');
+    Route::get('/candidatos', CandidatesManager::class)->name('politica.candidatos');
+    Route::get('/cidade/{cidade}/edit', EspelhoManager::class)->name('politica.espelho.edit');
+    Route::get('/mapa', \App\Livewire\Politica\InteractiveMap::class)->name('politica.mapa');
+    });
 
 });
