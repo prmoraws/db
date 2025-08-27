@@ -28,6 +28,7 @@ use App\Livewire\Adm\Users as UserManagement;
 use App\Livewire\Adm\Teams as TeamManagement;
 use App\Livewire\Adm\Dashboard as AdmDashboard;
 use App\Livewire\Adm\Captacoes as CaptacaoManagement; 
+use App\Livewire\Universal\CaptacaoPessoaWizard;
 use Illuminate\Support\Facades\Storage;
 use App\Livewire\Politica\CityDashboard;
 use App\Livewire\Politica\CityView;
@@ -40,6 +41,8 @@ Route::get('/', function () {
 });
 
 Route::get('/captacao-unp', CaptacaoUnp::class)->name('captacao.unp');
+Route::get('/cadastro-pessoas', CaptacaoPessoaWizard::class)->name('captacao.pessoa.create');
+
 
 Route::middleware([
     'auth:sanctum',
@@ -130,7 +133,7 @@ Route::middleware([
     Route::get('/cidade/{cidade}', CityView::class)->name('politica.cidade.view');
     Route::get('/candidatos', CandidatesManager::class)->name('politica.candidatos');
     Route::get('/cidade/{cidade}/edit', EspelhoManager::class)->name('politica.espelho.edit');
-    Route::get('/mapa', \App\Livewire\Politica\InteractiveMap::class)->name('politica.mapa');
+    // Route::get('/mapa', \App\Livewire\Politica\InteractiveMap::class)->name('politica.mapa');
     });
 
 });
