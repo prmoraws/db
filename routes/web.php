@@ -17,7 +17,7 @@ use App\Livewire\Evento\Dashboard as EventoDashboard;
 use App\Livewire\Universal\Dashboard as UniversalDashboard;
 use App\Livewire\Unp\Dashboard as UnpDashboard;
 use App\Livewire\Evento\{Entregas, Instituicoes, Terreiros};
-use App\Livewire\Universal\{Banners, Blocos, Categorias, Pastores, PastorUnp, CarroUnp, Pessoas, Regiaos, Igrejas};
+use App\Livewire\Universal\{Banners, Blocos, Categorias, Pastores, PastorUnp, CarroUnp, Pessoas, Regiaos, Igrejas, GestaoCaptacoes};
 use App\Http\Controllers\Universal\PastorUnpPrintController; 
 use App\Livewire\Unp\{Cargos, Cursos, Formaturas, Grupos, Instrutores, Presidios, Documentos};
 use App\Livewire\Unp\Oficios\{Anexos, Convidados, DadosCurso, InformacaoCurso, ListaCertificado, OficioCredencial, OficioEvento, OficioFormatura, OficioGeral, OficioTrabalho, OficioCop, OficioCurso, Reeducandos};
@@ -34,6 +34,7 @@ use App\Livewire\Politica\CityDashboard;
 use App\Livewire\Politica\CityView;
 use App\Livewire\Politica\CandidatesManager;
 use App\Livewire\Politica\EspelhoManager;
+use App\Http\Controllers\Universal\PessoaPrintController; 
 
 
 Route::get('/', function () {
@@ -95,6 +96,7 @@ Route::middleware([
         Route::get('/pessoas', Pessoas::class)->name('pessoas');
         Route::get('/banners', Banners::class)->name('banners');
         Route::get('/dashboard', UniversalDashboard::class)->name('dashboard.uni');
+        Route::get('/pessoas/{pessoa}/print', [PessoaPrintController::class, 'showFichaVoluntario'])->name('pessoas.print.ficha');
         // ... adicione todas as outras rotas 'universal' aqui
     });
 
@@ -133,7 +135,15 @@ Route::middleware([
     Route::get('/cidade/{cidade}', CityView::class)->name('politica.cidade.view');
     Route::get('/candidatos', CandidatesManager::class)->name('politica.candidatos');
     Route::get('/cidade/{cidade}/edit', EspelhoManager::class)->name('politica.espelho.edit');
-    // Route::get('/mapa', \App\Livewire\Politica\InteractiveMap::class)->name('politica.mapa');
+    Route::get('/mapa', \App\Livewire\Politica\InteractiveMap::class)->name('politica.mapa');
+    });
+
+    // Rotas do Grupo Secretária
+    Route::group(['prefix' => 'secretaria', 'middleware' => 'team.access:Secretaria'], function () {
+        Route::get('/gestao-captacoes', GestaoCaptacoes::class)->name('secretaria.gestao-captacoes');
+        Route::get('/pessoas', Pessoas::class)->name('pessoas');
+        Route::get('/pessoas/{pessoa}/print', [PessoaPrintController::class, 'showFichaVoluntario'])->name('pessoas.print.ficha');
+        // Você pode adicionar outras rotas da secretaria aqui no futuro
     });
 
 });

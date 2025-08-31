@@ -46,6 +46,7 @@ class CaptacaoPessoa extends Model
         'cargo_id',
         'grupo_id',
         'foto',
+        'assinatura',
         'trabalho',
         'batismo',
         'preso',

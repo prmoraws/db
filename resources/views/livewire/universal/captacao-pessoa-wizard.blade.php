@@ -19,262 +19,305 @@
                 </div>
             @endif
 
-            {{-- Etapa 1: Boas-vindas --}}
-            @if($step === 1)
-            <div class="text-center">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Seja Bem-vindo(a)!</h3>
-                <p class="mt-2 text-gray-600 dark:text-gray-400">Estamos felizes com seu interesse em fazer parte. Este formulário levará apenas alguns minutos.</p>
-                <button wire:click="nextStep" type="button" class="mt-6 w-full inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Iniciar Cadastro</button>
-            </div>
-            @endif
-
-            {{-- Etapa 2: Igreja e Função --}}
-            @if($step === 2)
-            <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">1. Sua Igreja e Função</h3>
-                <div class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 border rounded-md dark:border-gray-700">
-                        <div>
-                            <label for="bloco_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Bloco</label>
-                            <select wire:model.live="bloco_id" id="bloco_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
-                                <option value="">Selecione</option>
-                                @foreach($allBlocos as $bloco) <option value="{{ $bloco->id }}">{{ $bloco->nome }}</option> @endforeach
-                            </select>
-                            @error('bloco_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
-                        <div>
-                            <label for="regiao_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Região</label>
-                            <select wire:model.live="regiao_id" id="regiao_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700" @if(empty($regiaos)) disabled @endif>
-                                <option value="">Selecione</option>
-                                @foreach($regiaos as $regiao) <option value="{{ $regiao->id }}">{{ $regiao->nome }}</option> @endforeach
-                            </select>
-                            @error('regiao_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
-                        <div>
-                            <label for="igreja_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Igreja</label>
-                            <select wire:model.lazy="igreja_id" id="igreja_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700" @if(empty($igrejas)) disabled @endif>
-                                <option value="">Selecione</option>
-                                @foreach($igrejas as $igreja) <option value="{{ $igreja->id }}">{{ $igreja->nome }}</option> @endforeach
-                            </select>
-                            @error('igreja_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
-                    </div>
-                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 border rounded-md dark:border-gray-700">
-                        <div>
-                            <label for="categoria_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Categoria</label>
-                            <select wire:model.lazy="categoria_id" id="categoria_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
-                                <option value="">Selecione</option>
-                                @foreach($allCategorias as $categoria) <option value="{{ $categoria->id }}">{{ $categoria->nome }}</option> @endforeach
-                            </select>
-                            @error('categoria_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
-                        <div>
-                            <label for="cargo_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cargo</label>
-                            <select wire:model.lazy="cargo_id" id="cargo_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
-                                <option value="">Selecione</option>
-                                @foreach($allCargos as $cargo) <option value="{{ $cargo->id }}">{{ $cargo->nome }}</option> @endforeach
-                            </select>
-                            @error('cargo_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
-                        <div>
-                            <label for="grupo_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                @if($selectedBlocoName === 'Catedral') Grupo Catedral @else Grupo @endif
-                            </label>
-                            <select wire:model.lazy="grupo_id" id="grupo_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed" @if($selectedBlocoName !== 'Catedral') disabled @endif>
-                                <option value="">Selecione</option>
-                                @foreach($allGrupos as $grupo) <option value="{{ $grupo->id }}">{{ $grupo->nome }}</option> @endforeach
-                            </select>
-                            @error('grupo_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
-                    </div>
+            {{-- Etapas 1 a 6 (sem alterações) --}}
+            @if($step < 8)
+                @if($step === 1)
+                <div class="text-center">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Seja Bem-vindo(a)!</h3>
+                    <p class="mt-2 text-gray-600 dark:text-gray-400">Estamos felizes com seu interesse em fazer parte. Este formulário levará apenas alguns minutos.</p>
+                    <button wire:click="nextStep" type="button" class="mt-6 w-full inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Iniciar Cadastro</button>
                 </div>
-            </div>
-            @endif
-
-            {{-- Etapa 3: Dados Pessoais --}}
-            @if($step === 3)
-            <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">2. Dados Pessoais</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="md:col-span-2">
-                        <label for="nome" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nome Completo</label>
-                        <input type="text" wire:model.lazy="nome" id="nome" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
-                        @error('nome') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    </div>
-                    <div>
-                        <label for="celular" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Celular (com DDD)</label>
-                        <input type="text" wire:model.lazy="celular" id="celular" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
-                        @error('celular') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
-                        <input type="email" wire:model.lazy="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
-                        @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    </div>
-                    <div class="md:col-span-2">
-                        <label for="foto" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Foto</label>
-                        <input type="file" wire:model="foto" id="foto" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900/50 dark:file:text-blue-300 dark:hover:file:bg-blue-800/50">
-                        @if ($foto) <img src="{{ $foto->temporaryUrl() }}" class="mt-2 h-20 w-20 object-cover rounded-full"> @endif
-                        @error('foto') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    </div>
-                </div>
-            </div>
-            @endif
-            
-            {{-- Etapa 4: Endereço --}}
-            @if($step === 4)
-            <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">3. Endereço</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="estado_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Estado</label>
-                        <select wire:model.live="estado_id" id="estado_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
-                            <option value="">Selecione</option>
-                            @foreach($allEstados as $estado) <option value="{{ $estado->id }}">{{ $estado->nome }}</option> @endforeach
-                        </select>
-                        @error('estado_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    </div>
-                    <div>
-                        <label for="cidade_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cidade</label>
-                        <select wire:model.lazy="cidade_id" id="cidade_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700" @if(empty($cidades)) disabled @endif>
-                            <option value="">Selecione</option>
-                            @foreach($cidades as $cidade) <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option> @endforeach
-                        </select>
-                        @error('cidade_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    </div>
-                    <div class="md:col-span-2">
-                        <label for="endereco" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Endereço (Rua, Nº)</label>
-                        <input type="text" wire:model.lazy="endereco" id="endereco" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
-                        @error('endereco') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    </div>
-                    <div>
-                        <label for="bairro" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Bairro</label>
-                        <input type="text" wire:model.lazy="bairro" id="bairro" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
-                        @error('bairro') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    </div>
-                </div>
-            </div>
-            @endif
-
-            {{-- Etapa 5: Informações Adicionais --}}
-            @if($step === 5)
-            <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">4. Informações Adicionais</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
-                    <div class="md:col-span-2">
-                        <label for="profissao" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Profissão</label>
-                        <input type="text" wire:model.lazy="profissao" id="profissao" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
-                    </div>
-                    <div>
-                        <label for="conversao" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Data de Conversão</label>
-                        <input type="date" wire:model.lazy="conversao" id="conversao" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
-                    </div>
-                    <div>
-                        <label for="obra" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Entrada na Obra</label>
-                        <input type="date" wire:model.lazy="obra" id="obra" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
-                    </div>
-                    <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
-                        <div class="space-y-2">
-                            <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Trabalho</p>
-                            <label class="flex items-center"><input type="checkbox" wire:model.lazy="trabalho" value="interno" class="rounded text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"><span class="ml-2">Interno</span></label>
-                            <label class="flex items-center"><input type="checkbox" wire:model.lazy="trabalho" value="externo" class="rounded text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"><span class="ml-2">Externo</span></label>
-                        </div>
-                        <div class="space-y-2">
-                            <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Batismo</p>
-                            <label class="flex items-center"><input type="checkbox" wire:model.lazy="batismo" value="aguas" class="rounded text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"><span class="ml-2">Nas Águas</span></label>
-                            <label class="flex items-center"><input type="checkbox" wire:model.lazy="batismo" value="espirito" class="rounded text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"><span class="ml-2">Com Espírito Santo</span></label>
-                        </div>
-                         <div class="space-y-2">
-                            <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Situação</p>
-                            <label class="flex items-center"><input type="checkbox" wire:model.lazy="preso" value="preso" class="rounded text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"><span class="ml-2">Já foi Preso(a)</span></label>
-                            <label class="flex items-center"><input type="checkbox" wire:model.lazy="preso" value="familiar" class="rounded text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"><span class="ml-2">Familiar Preso</span></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif
-
-            {{-- Etapa 6: Testemunho --}}
-            @if($step === 6)
-            <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">5. Seu Testemunho</h3>
+                @endif
+                @if($step === 2)
                 <div>
-                    <label for="testemunho" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Descreva seu testemunho aqui</label>
-                    <textarea wire:model.lazy="testemunho" id="testemunho" rows="8" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700"></textarea>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">1. Sua Igreja e Função</h3>
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 border rounded-md dark:border-gray-700">
+                            <div>
+                                <label for="bloco_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Bloco</label>
+                                <select wire:model.live="bloco_id" id="bloco_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
+                                    <option value="">Selecione</option>
+                                    @foreach($allBlocos as $bloco) <option value="{{ $bloco->id }}">{{ $bloco->nome }}</option> @endforeach
+                                </select>
+                                @error('bloco_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            </div>
+                            <div>
+                                <label for="regiao_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Região</label>
+                                <select wire:model.live="regiao_id" id="regiao_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700" @if(empty($regiaos)) disabled @endif>
+                                    <option value="">Selecione</option>
+                                    @foreach($regiaos as $regiao) <option value="{{ $regiao->id }}">{{ $regiao->nome }}</option> @endforeach
+                                </select>
+                                @error('regiao_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            </div>
+                            <div>
+                                <label for="igreja_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Igreja</label>
+                                <select wire:model.lazy="igreja_id" id="igreja_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700" @if(empty($igrejas)) disabled @endif>
+                                    <option value="">Selecione</option>
+                                    @foreach($igrejas as $igreja) <option value="{{ $igreja->id }}">{{ $igreja->nome }}</option> @endforeach
+                                </select>
+                                @error('igreja_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 border rounded-md dark:border-gray-700">
+                            <div>
+                                <label for="categoria_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Categoria</label>
+                                <select wire:model.lazy="categoria_id" id="categoria_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
+                                    <option value="">Selecione</option>
+                                    @foreach($allCategorias as $categoria) <option value="{{ $categoria->id }}">{{ $categoria->nome }}</option> @endforeach
+                                </select>
+                                @error('categoria_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            </div>
+                            <div>
+                                <label for="cargo_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cargo</label>
+                                <select wire:model.lazy="cargo_id" id="cargo_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
+                                    <option value="">Selecione</option>
+                                    @foreach($allCargos as $cargo) <option value="{{ $cargo->id }}">{{ $cargo->nome }}</option> @endforeach
+                                </select>
+                                @error('cargo_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            </div>
+                            <div>
+                                <label for="grupo_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    @if($selectedBlocoName === 'Catedral') Grupo Catedral @else Grupo @endif
+                                </label>
+                                <select wire:model.lazy="grupo_id" id="grupo_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed" @if($selectedBlocoName !== 'Catedral') disabled @endif>
+                                    <option value="">Selecione</option>
+                                    @foreach($allGrupos as $grupo) <option value="{{ $grupo->id }}">{{ $grupo->nome }}</option> @endforeach
+                                </select>
+                                @error('grupo_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if($step === 3)
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">2. Dados Pessoais</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="md:col-span-2">
+                            <label for="nome" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nome Completo</label>
+                            <input type="text" wire:model.lazy="nome" id="nome" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
+                            @error('nome') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        </div>
+                        <div>
+                            <label for="celular" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Celular (com DDD)</label>
+                            <input type="text" wire:model.lazy="celular" id="celular" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
+                            @error('celular') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                            <input type="email" wire:model.lazy="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
+                            @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="foto" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Foto</label>
+                            <input type="file" wire:model="foto" id="foto" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900/50 dark:file:text-blue-300 dark:hover:file:bg-blue-800/50">
+                            @if ($foto) <img src="{{ $foto->temporaryUrl() }}" class="mt-2 h-20 w-20 object-cover rounded-full"> @endif
+                            @error('foto') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if($step === 4)
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">3. Endereço</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="estado_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Estado</label>
+                            <select wire:model.live="estado_id" id="estado_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
+                                <option value="">Selecione</option>
+                                @foreach($allEstados as $estado) <option value="{{ $estado->id }}">{{ $estado->nome }}</option> @endforeach
+                            </select>
+                            @error('estado_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        </div>
+                        <div>
+                            <label for="cidade_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cidade</label>
+                            <select wire:model.lazy="cidade_id" id="cidade_id" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700" @if(empty($cidades)) disabled @endif>
+                                <option value="">Selecione</option>
+                                @foreach($cidades as $cidade) <option value="{{ $cidade->id }}">{{ $cidade->nome }}</option> @endforeach
+                            </select>
+                            @error('cidade_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="endereco" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Endereço (Rua, Nº)</label>
+                            <input type="text" wire:model.lazy="endereco" id="endereco" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
+                            @error('endereco') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        </div>
+                        <div>
+                            <label for="bairro" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Bairro</label>
+                            <input type="text" wire:model.lazy="bairro" id="bairro" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
+                            @error('bairro') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        </div>
+                        <div>
+                            <label for="cep" class="block text-sm font-medium text-gray-700 dark:text-gray-300">CEP</label>
+                            <input type="text" wire:model.lazy="cep" id="cep" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
+                            @error('cep') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if($step === 5)
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">4. Informações Adicionais</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
+                        <div>
+                            <label for="profissao" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Profissão</label>
+                            <input type="text" wire:model.lazy="profissao" id="profissao" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
+                        </div>
+                        <div>
+                            <label for="aptidoes" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Aptidões</label>
+                            <input type="text" wire:model.lazy="aptidoes" id="aptidoes" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
+                        </div>
+                        <div>
+                            <label for="conversao" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Data de Conversão</label>
+                            <input type="date" wire:model.lazy="conversao" id="conversao" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
+                        </div>
+                        <div>
+                            <label for="obra" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Entrada na Obra</label>
+                            <input type="date" wire:model.lazy="obra" id="obra" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700">
+                        </div>
+                        <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
+                            <div class="space-y-2">
+                                <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Trabalho</p>
+                                <label class="flex items-center"><input type="checkbox" wire:model.lazy="trabalho" value="interno" class="rounded text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"><span class="ml-2">Interno</span></label>
+                                <label class="flex items-center"><input type="checkbox" wire:model.lazy="trabalho" value="externo" class="rounded text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"><span class="ml-2">Externo</span></label>
+                            </div>
+                            <div class="space-y-2">
+                                <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Batismo</p>
+                                <label class="flex items-center"><input type="checkbox" wire:model.lazy="batismo" value="aguas" class="rounded text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"><span class="ml-2">Águas</span></label>
+                                <label class="flex items-center"><input type="checkbox" wire:model.lazy="batismo" value="espirito_santo" class="rounded text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"><span class="ml-2">Espírito Santo</span></label>
+                            </div>
+                            <div class="space-y-2">
+                                <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Já foi preso?</p>
+                                <label class="flex items-center"><input type="checkbox" wire:model.lazy="preso" value="sim" class="rounded text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"><span class="ml-2">Sim</span></label>
+                                <label class="flex items-center"><input type="checkbox" wire:model.lazy="preso" value="nao" class="rounded text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"><span class="ml-2">Não</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if($step === 6)
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">5. Testemunho</h3>
+                    <textarea wire:model.lazy="testemunho" rows="6" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700"></textarea>
                     @error('testemunho') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
-            </div>
+                @endif
             @endif
 
-            {{-- Etapa 7: Revisão --}}
-            @if($step === 7)
-            <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">6. Revise suas Informações</h3>
-                <div class="space-y-6">
-                    <div>
-                        <h4 class="font-semibold text-blue-600 dark:text-blue-400 border-b dark:border-gray-600 pb-2 mb-3">Dados Pessoais</h4>
-                        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
-                            <div class="sm:col-span-2 flex items-center gap-4">
-                                @if($foto) <img src="{{ $foto->temporaryUrl() }}" class="h-16 w-16 object-cover rounded-full"> @endif
-                                <div><dt class="text-sm font-medium text-gray-500">Nome</dt> <dd class="text-base text-gray-900 dark:text-gray-100">{{ $nome }}</dd></div>
-                            </div>
-                            <div><dt class="text-sm font-medium text-gray-500">Celular</dt> <dd>{{ $celular }}</dd></div>
-                            <div><dt class="text-sm font-medium text-gray-500">Email</dt> <dd>{{ $email ?: 'Não informado' }}</dd></div>
-                            <div><dt class="text-sm font-medium text-gray-500">Profissão</dt> <dd>{{ $profissao ?: 'Não informado' }}</dd></div>
-                            <div class="sm:col-span-2"><dt class="text-sm font-medium text-gray-500">Endereço</dt> <dd>{{ $endereco }}, {{ $bairro }} - {{ optional(collect($cidades)->firstWhere('id', $cidade_id))->nome }} / {{ optional($allEstados->firstWhere('id', $estado_id))->uf }}</dd></div>
-                        </dl>
+            {{-- Etapa 7: Assinatura com Alpine.js --}}
+                @if($step === 7)
+                <div 
+                    wire:ignore
+                    x-data="signaturePad()" {{-- (1) Inicia o componente Alpine --}}
+                    x-init="init()"         {{-- (2) Chama a função de inicialização --}}
+                >
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">6. Assinatura</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Por favor, assine no campo abaixo:</p>
+                    
+                    <div id="signature-pad-container" class="relative w-full max-w-lg mx-auto border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg touch-none" style="min-height: 250px;">
+                        {{-- (3) Adiciona x-ref para que o Alpine encontre o canvas --}}
+                        <canvas x-ref="canvas" class="w-full h-full"></canvas>
                     </div>
-                    <div>
-                        <h4 class="font-semibold text-blue-600 dark:text-blue-400 border-b dark:border-gray-600 pb-2 mb-3">Filiação Eclesiástica</h4>
-                        <dl class="grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-4">
-                            <div><dt class="text-sm font-medium text-gray-500">Bloco</dt> <dd>{{ optional($allBlocos->firstWhere('id', $bloco_id))->nome }}</dd></div>
-                            <div><dt class="text-sm font-medium text-gray-500">Região</dt> <dd>{{ optional(collect($regiaos)->firstWhere('id', $regiao_id))->nome }}</dd></div>
-                            <div><dt class="text-sm font-medium text-gray-500">Igreja</dt> <dd>{{ optional(collect($igrejas)->firstWhere('id', '==', $igreja_id))->nome }}</dd></div>
-                            <div><dt class="text-sm font-medium text-gray-500">Categoria</dt> <dd>{{ optional($allCategorias->firstWhere('id', $categoria_id))->nome }}</dd></div>
-                            <div><dt class="text-sm font-medium text-gray-500">Cargo</dt> <dd>{{ optional($allCargos->firstWhere('id', $cargo_id))->nome }}</dd></div>
-                            <div><dt class="text-sm font-medium text-gray-500">Grupo</dt> <dd>{{ optional($allGrupos->firstWhere('id', $grupo_id))->nome ?: 'N/A' }}</dd></div>
-                        </dl>
+
+                    <div class="flex flex-wrap justify-center items-center gap-4 mt-4">
+                        {{-- (4) Botões agora usam @click para chamar as funções do Alpine --}}
+                        <button @click="clear()" type="button" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Limpar</button>
+                        <button @click="save()" type="button" class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Salvar Assinatura</button>
+                        {{-- O botão de tela cheia pode ser adaptado de forma similar se necessário --}}
                     </div>
-                    <div>
-                         <h4 class="font-semibold text-blue-600 dark:text-blue-400 border-b dark:border-gray-600 pb-2 mb-3">Jornada Espiritual</h4>
-                        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
-                            <div><dt class="text-sm font-medium text-gray-500">Conversão</dt> <dd>{{ $conversao ? \Carbon\Carbon::parse($conversao)->format('d/m/Y') : 'Não informado' }}</dd></div>
-                            <div><dt class="text-sm font-medium text-gray-500">Entrada na Obra</dt> <dd>{{ $obra ? \Carbon\Carbon::parse($obra)->format('d/m/Y') : 'Não informado' }}</dd></div>
-                            <div><dt class="text-sm font-medium text-gray-500">Trabalho</dt> <dd class="capitalize">{{ !empty($trabalho) ? implode(', ', $trabalho) : 'Não informado' }}</dd></div>
-                            <div><dt class="text-sm font-medium text-gray-500">Batismo</dt> <dd class="capitalize">{{ !empty($batismo) ? implode(', ', $batismo) : 'Não informado' }}</dd></div>
-                            <div class="sm:col-span-2"><dt class="text-sm font-medium text-gray-500">Situação</dt> <dd class="capitalize">{{ !empty($preso) ? implode(', ', $preso) : 'Não informado' }}</dd></div>
-                             @if($testemunho)
-                            <div class="sm:col-span-2"><dt class="text-sm font-medium text-gray-500">Testemunho</dt> <dd class="italic text-gray-600 dark:text-gray-400">"{{ \Illuminate\Support\Str::limit($testemunho, 200) }}"</dd></div>
-                            @endif
-                        </dl>
-                    </div>
+                    @error('assinatura') <span class="text-red-500 text-sm mt-2 block text-center">{{ $message }}</span> @enderror
                 </div>
-            </div>
-            @endif
-            
-            {{-- Etapa 8: Sucesso --}}
+                @endif
+
+            {{-- Etapa 8: Confirmação --}}
             @if($step === 8)
             <div class="text-center">
-                <svg class="mx-auto h-12 w-12 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <h3 class="mt-4 text-xl font-semibold text-gray-900 dark:text-gray-100">Cadastro Enviado!</h3>
-                <p class="mt-2 text-gray-600 dark:text-gray-400">Obrigado! Suas informações foram enviadas para análise. Entraremos em contato em breve.</p>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Concluir Cadastro!</h3>
+                <p class="mt-2 text-gray-600 dark:text-gray-400">Para enviar sua ficha, Click no botão abaixo "Finalizar Cadastro"!<br>
+                    O seu cadastro no UNP – Universal nos Presídios foi concluído com sucesso e será analisado pela Secretaria responsável.
+
+Agradecemos pelo seu interesse e disposição em participar deste projeto.
+
+Por meio do Projeto Universal nos Presídios (UNP), uma nova perspectiva de vida é oferecida àqueles que um dia foram sentenciados pelos seus erros, através da Palavra de Deus, provando que todos têm a oportunidade de recomeçar e trilhar um novo caminho.
+                </p>
             </div>
             @endif
         </div>
 
-        {{-- Botões de Navegação --}}
         <div class="p-6 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700">
-            @if ($step > 1 && $step < $totalSteps)
-                <div class="flex justify-between items-center">
-                    <button wire:click="previousStep" type="button" class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600">Voltar</button>
-                    <div wire:loading wire:target="nextStep, submit" class="text-sm text-gray-500">Processando...</div>
-                    @if($step == $totalSteps - 1)
-                        <button wire:click="submit" wire:loading.attr="disabled" type="button" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:opacity-50">Enviar Cadastro</button>
-                    @else
-                        <button wire:click="nextStep" wire:loading.attr="disabled" type="button" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50">Próximo</button>
-                    @endif
-                </div>
-            @endif
+            <div class="flex justify-between items-center">
+                @if($step > 1 && $step <= $totalSteps)
+                    <button wire:click="previousStep" type="button" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">Anterior</button>
+                @else
+                    <div></div> {{-- Placeholder para manter o botão da direita alinhado --}}
+                @endif
+
+                @if($step < 8)
+                    <button wire:click="nextStep" type="button" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Próximo</button>
+                @elseif($step === 8)
+                    <button wire:click="submit" type="button" class="px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Finalizar Cadastro</button>
+                @endif
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('signaturePad', () => ({
+            signaturePadInstance: null,
+            
+            init() {
+                // Carrega a biblioteca do SignaturePad sob demanda
+                if (typeof SignaturePad === 'undefined') {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.jsdelivr.net/npm/signature_pad@5.0.10/dist/signature_pad.umd.min.js';
+                    script.onload = () => {
+                        this.initializePad();
+                    };
+                    document.head.appendChild(script);
+                } else {
+                    this.initializePad();
+                }
+            },
+
+            initializePad() {
+                this.resizeCanvas();
+                this.signaturePadInstance = new SignaturePad(this.$refs.canvas, {
+                    backgroundColor: 'rgb(255, 255, 255)',
+                    penColor: 'rgb(0, 0, 0)',
+                });
+                window.addEventListener('resize', () => this.resizeCanvas());
+            },
+
+            resizeCanvas() {
+                const canvas = this.$refs.canvas;
+                const ratio = Math.max(window.devicePixelRatio || 1, 1);
+                // Define o tamanho do canvas baseado no seu container
+                canvas.width = canvas.parentElement.offsetWidth * ratio;
+                canvas.height = canvas.parentElement.offsetHeight * ratio;
+                canvas.getContext("2d").scale(ratio, ratio);
+                
+                if (this.signaturePadInstance) {
+                    this.signaturePadInstance.clear();
+                }
+            },
+
+            clear() {
+                if (this.signaturePadInstance) {
+                    this.signaturePadInstance.clear();
+                }
+            },
+
+            save() {
+                if (this.signaturePadInstance && !this.signaturePadInstance.isEmpty()) {
+                    const dataURL = this.signaturePadInstance.toDataURL('image/png');
+                    this.$wire.set('assinatura', dataURL);
+                    alert('Assinatura salva!');
+                } else {
+                    alert('Por favor, forneça sua assinatura.');
+                }
+            }
+        }));
+    });
+</script>

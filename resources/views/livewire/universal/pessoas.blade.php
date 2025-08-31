@@ -101,6 +101,9 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
                                         <div class="flex items-center justify-center space-x-3">
+                                            <a href="{{ route('pessoas.print.ficha', $pessoa->id) }}" target="_blank" class="w-5 transform hover:text-gray-500 hover:scale-110" title="Imprimir Ficha">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm7-8a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                            </a>
                                             <button wire:click="view({{ $pessoa->id }})"
                                                 class="w-5 transform hover:text-green-500 hover:scale-110 transition-all duration-150"
                                                 aria-label="Visualizar"><svg class="w-5 h-5" fill="none"
@@ -169,6 +172,9 @@
                                     {{ $pessoa->igreja->nome ?? 'N/A' }}</p>
                             </div>
                             <div class="flex flex-col space-y-4 ml-4">
+                                <a href="{{ route('pessoas.print.ficha', $pessoa->id) }}" target="_blank" class="w-5 transform hover:text-gray-500 hover:scale-110" title="Imprimir Ficha">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm7-8a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                </a>
                                 <button wire:click="view({{ $pessoa->id }})"
                                     class="w-5 transform text-gray-500 hover:text-green-500 hover:scale-110 transition-all duration-150"><svg
                                         class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -568,14 +574,19 @@
                                         {{ $selectedPessoa->conversao ? Carbon::parse($selectedPessoa->conversao)->format('d/m/Y') : 'N/A' }}
                                     </p>
                                     {{-- CORREÇÃO: Removido json_decode(), pois a propriedade já é um array --}}
+                                    @php
+                                        // Garante que os atributos sejam arrays, mesmo que venham mal formatados do DB
+                                        $batismoArray = is_array($selectedPessoa->batismo) ? $selectedPessoa->batismo : [];
+                                        $presoArray = is_array($selectedPessoa->preso) ? $selectedPessoa->preso : [];
+                                    @endphp
                                     <p><strong>Batismo:</strong> Águas:
-                                        {{ in_array('aguas', $selectedPessoa->batismo ?: []) ? 'Sim' : 'Não' }} |
+                                        {{ in_array('aguas', $batismoArray) ? 'Sim' : 'Não' }} |
                                         Espírito Santo:
-                                        {{ in_array('espirito', $selectedPessoa->batismo ?: []) ? 'Sim' : 'Não' }}</p>
+                                        {{ in_array('espirito', $batismoArray) ? 'Sim' : 'Não' }}</p>
                                     <p><strong>Situação:</strong> Já foi preso(a):
-                                        {{ in_array('preso', $selectedPessoa->preso ?: []) ? 'Sim' : 'Não' }} |
+                                        {{ in_array('preso', $presoArray) ? 'Sim' : 'Não' }} |
                                         Familiar Preso:
-                                        {{ in_array('familiar', $selectedPessoa->preso ?: []) ? 'Sim' : 'Não' }}</p>
+                                        {{ in_array('familiar', $presoArray) ? 'Sim' : 'Não' }}</p>
                                 </div>
                                 <div>
                                     <h4 class="font-semibold text-blue-500">Testemunho</h4>

@@ -84,6 +84,9 @@
         </footer>
     </div>
     @livewireScripts
+    @stack('scripts') {{-- Adicionado para permitir que scripts sejam injetados aqui --}}
 </body>
 
 </html>
+
+

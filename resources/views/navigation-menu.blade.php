@@ -105,6 +105,17 @@
                                     ['is_divider' => true],
                                 ],
                             ],
+                            'Secretaria' => [
+                                'team' => 'Secretaria', // Define o time que pode ver este menu
+                                // ALTERAÇÃO: A verificação 'active' agora inclui a rota 'pessoas'
+                                'active' => request()->is('secretaria/*') || request()->routeIs('pessoas'),
+                                'icon' => '<svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" /></svg>',
+                                'links' => [
+                                    ['route' => 'secretaria.gestao-captacoes', 'label' => 'Gestão de Captações'],
+                                    // ALTERAÇÃO: Adicionado o link para a rota 'pessoas'
+                                    ['route' => 'pessoas', 'label' => 'Pessoas'],
+                                ],
+                            ],
                             'Adm' => [
                                 'active' => request()->is('teams/*'),
                                 'icon' =>
@@ -127,8 +138,8 @@
                     @endphp
 
                     @foreach ($menus as $name => $menu)
-                        <div class="relative group h-full flex items-center" x-data="{ open: false }"
-                            @mouseenter="open = true" @mouseleave="open = false">
+                        @if(!isset($menu['team']) || Auth::user()->currentTeam->name === $menu['team'] || Auth::user()->currentTeam->name === 'Adm')
+                        <div class="relative group h-full flex items-center" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
                             <button
                                 class="px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors {{ $menu['active'] ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400' }}">
                                 {!! $menu['icon'] !!}
@@ -164,6 +175,7 @@
                                 </div>
                             </div>
                         </div>
+                      @endif
                     @endforeach
                 </div>
 
@@ -209,7 +221,7 @@
                                 <form method="POST" action="{{ route('logout') }}" x-data>
                                     @csrf
                                     <x-dropdown-link href="{{ route('logout') }}"
-                                        @click="$root.submit()">{{ __('Log Out') }}</x-dropdown-link>
+                                        @click.prevent="$root.submit();">{{ __('Log Out') }}</x-dropdown-link>
                                 </form>
                             </x-slot>
                         </x-dropdown>

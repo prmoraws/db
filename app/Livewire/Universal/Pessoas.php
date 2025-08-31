@@ -187,29 +187,56 @@ class Pessoas extends Component
         }
     }
 
-    // ... métodos edit, view, delete ...
     public function edit($id)
     {
         try {
             $pessoa = Pessoa::findOrFail($id);
             $this->pessoa_id = $id;
-            $this->fill($pessoa);
-            $this->conversao = $pessoa->conversao ? Carbon::parse($pessoa->conversao)->format('Y-m-d') : null;
-            $this->obra = $pessoa->obra ? Carbon::parse($pessoa->obra)->format('Y-m-d') : null;
-            $this->trabalho = $pessoa->trabalho ?? [];
-            $this->batismo = $pessoa->batismo ?? [];
-            $this->preso = $pessoa->preso ?? [];
+
+            // CORREÇÃO 1: Usar ->toArray() para preencher o formulário com segurança.
+            // Isso resolve o problema do botão "Atualizar" que não funciona.
+            $this->fill($pessoa->toArray());
+
+            // CORREÇÃO 2: Sanitizar os atributos que deveriam ser arrays.
+            // Isso resolve o problema dos checkboxes que marcam tudo.
+            // Esta função de sanitização ainda precisa ser adicionada ao seu componente.
+            $this->trabalho = $this->sanitizeJsonAttribute($pessoa->trabalho);
+            $this->batismo = $this->sanitizeJsonAttribute($pessoa->batismo);
+            $this->preso = $this->sanitizeJsonAttribute($pessoa->preso);
+            
+            // Mantemos a formatação correta das datas
+            $this->conversao = $pessoa->conversao ? $pessoa->conversao->format('Y-m-d') : null;
+            $this->obra = $pessoa->obra ? $pessoa->obra->format('Y-m-d') : null;
+
+            // O resto do método continua como antes
             $this->regiaos = $pessoa->bloco_id ? Regiao::where('bloco_id', $pessoa->bloco_id)->orderBy('nome')->get() : collect();
             $this->igrejas = $pessoa->regiao_id ? Igreja::where('regiao_id', $pessoa->regiao_id)->orderBy('nome')->get() : collect();
             $this->cidades = $pessoa->estado_id ? Cidade::where('estado_id', $pessoa->estado_id)->orderBy('nome')->get() : collect();
             $this->fotoAtual = $pessoa->foto;
-            $this->foto = null;
+            $this->foto = null; // Limpa o input de arquivo
             $this->isOpen = true;
         } catch (\Exception $e) {
             session()->flash('error', 'Erro ao carregar dados para edição.');
             Log::error('Erro ao editar pessoa: ' . $e->getMessage());
         }
     }
+
+    // ADICIONE ESTE MÉTODO AUXILIAR DENTRO DA CLASSE Pessoas
+    private function sanitizeJsonAttribute($attribute)
+    {
+        if (is_array($attribute)) {
+            return $attribute;
+        }
+        if (!is_string($attribute) || empty($attribute)) {
+            return [];
+        }
+        $decoded = json_decode($attribute, true);
+        while (is_string($decoded)) {
+            $decoded = json_decode($decoded, true);
+        }
+        return is_array($decoded) ? $decoded : [];
+    }
+
     public function view($id)
     {
         try {

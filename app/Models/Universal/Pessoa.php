@@ -37,7 +37,7 @@ class Pessoa extends Model
         'cargo_id',
         'grupo_id',
         'foto',
-        // CORREÇÃO: Adicione os campos JSON aqui para permitir o salvamento
+        'assinatura',
         'trabalho',
         'batismo',
         'preso',
