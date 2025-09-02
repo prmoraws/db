@@ -93,10 +93,10 @@ Route::middleware([
         Route::get('/pastor-unp', PastorUnp::class)->name('pastor-unp');
         Route::get('/carros-unp', CarroUnp::class)->name('carros-unp');
         Route::get('/pastor-unp/{id}/print', [PastorUnpPrintController::class, 'show'])->name('pastor-unp.print');
-        Route::get('/pessoas', Pessoas::class)->name('pessoas');
+        Route::get('/pessoas', Pessoas::class)->name('universal.pessoas');
+        Route::get('/pessoas/{pessoa}/print', [PessoaPrintController::class, 'showFichaVoluntario'])->name('universal.pessoas.print.ficha');
         Route::get('/banners', Banners::class)->name('banners');
         Route::get('/dashboard', UniversalDashboard::class)->name('dashboard.uni');
-        Route::get('/pessoas/{pessoa}/print', [PessoaPrintController::class, 'showFichaVoluntario'])->name('pessoas.print.ficha');
         // ... adicione todas as outras rotas 'universal' aqui
     });
 
@@ -141,8 +141,8 @@ Route::middleware([
     // Rotas do Grupo Secretária
     Route::group(['prefix' => 'secretaria', 'middleware' => 'team.access:Secretaria'], function () {
         Route::get('/gestao-captacoes', GestaoCaptacoes::class)->name('secretaria.gestao-captacoes');
-        Route::get('/pessoas', Pessoas::class)->name('pessoas');
-        Route::get('/pessoas/{pessoa}/print', [PessoaPrintController::class, 'showFichaVoluntario'])->name('pessoas.print.ficha');
+        Route::get('/pessoas', Pessoas::class)->name('secretaria.pessoas');
+        Route::get('/pessoas/{pessoa}/print', [PessoaPrintController::class, 'showFichaVoluntario'])->name('secretaria.pessoas.print.ficha');
         // Você pode adicionar outras rotas da secretaria aqui no futuro
     });
 

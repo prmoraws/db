@@ -101,9 +101,18 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
                                         <div class="flex items-center justify-center space-x-3">
-                                            <a href="{{ route('pessoas.print.ficha', $pessoa->id) }}" target="_blank" class="w-5 transform hover:text-gray-500 hover:scale-110" title="Imprimir Ficha">
+                                            
+                                            {{-- ALTERAÇÃO INICIADA --}}
+                                            @php
+                                                $printRoute = Auth::user()->currentTeam->name === 'Secretaria'
+                                                    ? 'secretaria.pessoas.print.ficha'
+                                                    : 'universal.pessoas.print.ficha';
+                                            @endphp
+                                            <a href="{{ route($printRoute, $pessoa->id) }}" target="_blank" class="w-5 transform hover:text-gray-500 hover:scale-110" title="Imprimir Ficha">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm7-8a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                                             </a>
+                                            {{-- ALTERAÇÃO FINALIZADA --}}
+
                                             <button wire:click="view({{ $pessoa->id }})"
                                                 class="w-5 transform hover:text-green-500 hover:scale-110 transition-all duration-150"
                                                 aria-label="Visualizar"><svg class="w-5 h-5" fill="none"
@@ -172,9 +181,18 @@
                                     {{ $pessoa->igreja->nome ?? 'N/A' }}</p>
                             </div>
                             <div class="flex flex-col space-y-4 ml-4">
-                                <a href="{{ route('pessoas.print.ficha', $pessoa->id) }}" target="_blank" class="w-5 transform hover:text-gray-500 hover:scale-110" title="Imprimir Ficha">
+
+                                {{-- ALTERAÇÃO INICIADA --}}
+                                @php
+                                    $printRoute = Auth::user()->currentTeam->name === 'Secretaria'
+                                        ? 'secretaria.pessoas.print.ficha'
+                                        : 'universal.pessoas.print.ficha';
+                                @endphp
+                                <a href="{{ route($printRoute, $pessoa->id) }}" target="_blank" class="w-5 transform hover:text-gray-500 hover:scale-110" title="Imprimir Ficha">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm7-8a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                                 </a>
+                                {{-- ALTERAÇÃO FINALIZADA --}}
+
                                 <button wire:click="view({{ $pessoa->id }})"
                                     class="w-5 transform text-gray-500 hover:text-green-500 hover:scale-110 transition-all duration-150"><svg
                                         class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

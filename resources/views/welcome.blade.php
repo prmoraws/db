@@ -94,7 +94,7 @@
             <div class="flex-1 text-center lg:text-left">
                 <h1
                     class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6 transition-all duration-500 ease-in-out transform starting:translate-y-4 starting:opacity-0 translate-y-0 opacity-100">
-                    Bem-vindo ao <span class="text-blue-600 dark:text-blue-400">Moraws</span>
+                    Bem-vindo <span class="text-blue-600 dark:text-blue-400"></span>
                 </h1>
                 <p
                     class="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed transition-all duration-500 ease-in-out transform starting:translate-y-4 starting:opacity-0 translate-y-0 opacity-100 delay-100">

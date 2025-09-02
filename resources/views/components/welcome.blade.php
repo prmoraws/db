@@ -2,7 +2,7 @@
     <div class="text-center mb-12">
         <h1
             class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6 transition-all duration-500 ease-in-out transform starting:translate-y-4 starting:opacity-0 translate-y-0 opacity-100">
-            Bem-vindo ao <span class="text-blue-600 dark:text-blue-400">Moraws</span>
+            Bem-vindo <span class="text-blue-600 dark:text-blue-400"></span>
         </h1>
         <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto animate-fade-in-delay">
             Selecione uma aplicação para começar a gerenciar suas atividades com eficiência.
